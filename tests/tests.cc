@@ -95,6 +95,9 @@ TEST_CASE("Simple deposit", "[ex-4]") {
   auto accounts = atm.GetAccounts();
   Account sam_account = accounts[{12345678, 1234}];
   REQUIRE(sam_account.balance == 335.30);
+
+  // account does not exist
+  REQUIRE_THROWS_AS(atm.DepositCash(00001123, 1234, 25), std::invalid_argument);
   // negative deposit
   REQUIRE_THROWS_AS(atm.DepositCash(12345678, 1234, -10), std::invalid_argument);
 }
