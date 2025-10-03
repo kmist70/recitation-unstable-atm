@@ -50,9 +50,7 @@ TEST_CASE("Example: Create a new account", "[ex-1]") {
   std::vector<std::string> empty;
   REQUIRE(transactions[{12345678, 1234}] == empty);
 
-  atm.RegisterAccount(12345678, 1234, "Sam Sepiol", 100.30);
-  accounts = atm.GetAccounts();
-  REQUIRE_THROWS_AS(accounts.count({12345678, 1234}) > 1, std::invalid_argument);
+  REQUIRE_THROWS_AS(atm.RegisterAccount(12345678, 1234, "Sam Sepiol", 100.30), std::invalid_argument);
 }
 
 TEST_CASE("Example: Simple widthdraw", "[ex-2]") {
@@ -84,6 +82,7 @@ TEST_CASE("Example: Print Prompt Ledger", "[ex-3]") {
       "Deposit - Amount: $32000.00, Updated Balance: $72099.90");
   atm.PrintLedger("./prompt.txt", 12345678, 1234);
   REQUIRE(CompareFiles("./ex-1.txt", "./prompt.txt"));
+  
   // account does not exist
   REQUIRE_THROWS_AS(atm.PrintLedger("./prompt.txt", 00001123, 1234), std::invalid_argument);
 }
